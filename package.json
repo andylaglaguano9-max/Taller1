@@ -1,0 +1,29 @@
+{
+  "name": "ticketrush-distributed-concurrency",
+  "version": "1.0.0",
+  "description": "Sistema distribuido para reserva concurrente de cupos con Redis y Worker Threads",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test:single": "k6 run k6/test1_single_instance.js",
+    "test:local": "k6 run k6/test2_distributed_local.js",
+    "test:redis": "k6 run k6/test2_distributed_redis.js",
+    "test:ping": "k6 run k6/test3_ping_availability.js",
+    "test:workers": "k6 run k6/test4_worker_limits.js",
+    "test:final": "k6 run k6/test8_final_integrated.js"
+  },
+  "keywords": [
+    "distributed-systems",
+    "concurrency",
+    "redis",
+    "worker-threads",
+    "kubernetes",
+    "k6"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async-mutex": "^0.5.0",
+    "ioredis": "^6.0.0"
+  }
+}

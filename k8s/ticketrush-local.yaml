@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticketrush-deployment
+  namespace: ticketrush
+  labels:
+    app: ticketrush
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ticketrush
+  template:
+    metadata:
+      labels:
+        app: ticketrush
+    spec:
+      containers:
+      - name: ticketrush
+        image: ticketrush:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000
+        env:
+        - name: PORT
+          value: "3000"
+        - name: INITIAL_SPOTS
+          value: "20"
+        - name: STORAGE_MODE
+          value: "local"
+        - name: CPU_MODE
+          value: "none"
+        - name: MAX_WORKERS
+          value: "4"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticketrush-service
+  namespace: ticketrush
+spec:
+  type: NodePort
+  selector:
+    app: ticketrush
+  ports:
+  - port: 3000
+    targetPort: 3000
+    nodePort: 30090
